@@ -3,7 +3,7 @@ package com.example.demo.dto.response.sanpham;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
-public interface KinhThuocRespone {
+public interface KichThuocRespone {
     public String getId();
 
     public String getMa();

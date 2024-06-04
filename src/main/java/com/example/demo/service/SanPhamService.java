@@ -23,4 +23,12 @@ public class SanPhamService {
     public List<SanPhamResponse>getTim(SanPhamSearch sanPhamSearch){return sanPhamRepository.tim(sanPhamSearch);}
 
     public List<String> getSPByCTSP(String id){return sanPhamRepository.getIDSPbyCTSP(id);}
+
+    public boolean existByID(String id){return sanPhamRepository.existsById(id);}
+
+    public void deleteByID(String id){
+        sanPhamRepository.deleteById(id);
+    }
+
+    public SanPham addSP(SanPham sp){return sanPhamRepository.save(sp);}
 }

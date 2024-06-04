@@ -1,9 +1,10 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.request.sanpham.KichThuocRequest;
 import com.example.demo.dto.request.sanphamsearch.BangConSearch;
-import com.example.demo.dto.response.sanpham.KinhThuocRespone;
+import com.example.demo.dto.response.sanpham.KichThuocRespone;
 import com.example.demo.entity.KichThuoc;
-import com.example.demo.repository.KinhThuocRepository;
+import com.example.demo.repository.KichThuocRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +13,29 @@ import java.util.List;
 @Service
 public class KichThuocService {
     @Autowired
-    KinhThuocRepository kinhThuocRepository;
-    public List<KichThuoc> getALL(){return kinhThuocRepository.findAll();}
+    KichThuocRepository kichThuocRepository;
+    public List<KichThuoc> getALL(){return kichThuocRepository.findAll();}
 
-    public List<KinhThuocRespone> getALLKT(){return kinhThuocRepository.getALLKT();}
+    public List<KichThuocRespone> getALLKT(){return kichThuocRepository.getALLKT();}
 
-    public List<KinhThuocRespone> getTim(BangConSearch bangConSearch){return kinhThuocRepository.timKT(bangConSearch);}
+    public KichThuoc update(String id, KichThuocRequest request) {
+        KichThuoc kt = request.mapKT(new KichThuoc());
+        kt.setId(id);
+        return kichThuocRepository.save(kt);
+    }
+
+    public KichThuoc detailKichThuoc(String id){return kichThuocRepository.findById(id).get();}
+
+    public String addKT(KichThuocRequest kt){
+        KichThuoc kichThuoc = KichThuoc.builder()
+                .ma(kt.getMa())
+                .ten(kt.getTen())
+                .ngayTao(kt.getNgayTao())
+                .trangThai(0)
+                .build();
+        kichThuocRepository.save(kichThuoc);
+        return "Done";
+    }
+
+    public List<KichThuocRespone> getTim(BangConSearch bangConSearch){return kichThuocRepository.timKT(bangConSearch);}
 }
