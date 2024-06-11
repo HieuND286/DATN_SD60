@@ -1,26 +1,24 @@
 package com.example.backend.repository;
 
-
 import com.example.backend.dto.request.sanphamsearch.BangConSearch;
-import com.example.backend.dto.response.sanpham.ChatLieuRespone;
-import com.example.backend.entity.ChatLieu;
+import com.example.backend.dto.response.sanpham.DanhMucRespone;
+import com.example.backend.entity.DanhMuc;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
-@Repository
-public interface ChatLieuRepository extends JpaRepository<ChatLieu, String> {
+
+public interface DanhMucRepository extends JpaRepository<DanhMuc, String> {
     @Query(value = """
-    SELECT o.id as id,o.ma as ma ,o.ten as ten, o.trang_thai as trangThai FROM chat_lieu o ORDER BY o.ma ASC 
+    SELECT dm.id as id,dm.ma as ma ,dm.ten as ten, dm.trang_thai as trangThai FROM danh_muc dm ORDER BY dm.ma ASC 
             """, nativeQuery = true)
-    List<ChatLieuRespone> getALLCL();
+    List<DanhMucRespone> getALLDM();
 
     @Query(value = """
-    SELECT o.id as id,o.ma as ma ,o.ten as ten, o.trang_thai as trangThai FROM chat_lieu o WHERE 
+    SELECT o.id as id,o.ma as ma ,o.ten as ten, o.trang_thai as trangThai FROM danh_muc o WHERE 
      (:#{#bangConSearch.ten} IS NULL OR o.ma LIKE (%:#{#bangConSearch.ten}%) OR o.ten LIKE (%:#{#bangConSearch.ten}%) ) AND
      ( :#{#bangConSearch.trangThai} IS NULL OR o.trang_thai=:#{#bangConSearch.trangThai})
     ORDER BY o.ma DESC
             """, nativeQuery = true)
-    List<ChatLieuRespone> timCL(BangConSearch bangConSearch);
+    List<DanhMucRespone> tim(BangConSearch bangConSearch);
 }
