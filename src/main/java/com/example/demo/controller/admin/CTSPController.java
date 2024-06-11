@@ -1,0 +1,161 @@
+package com.example.demo.controller.admin;
+
+
+import com.example.demo.dto.request.sanpham.ChiTietSanPhamRequest;
+import com.example.demo.dto.request.sanpham.HinhAnhRequest;
+import com.example.demo.dto.request.sanphamsearch.CTSPSearch;
+import com.example.demo.dto.request.sanphamupdate.UpdateCTSPRequest;
+import com.example.demo.entity.ChiTietSanPham;
+import com.example.demo.entity.KhuyenMai;
+import com.example.demo.entity.KhuyenMaiSanPham;
+import com.example.demo.service.CTSPService;
+import com.example.demo.service.HinhAnhService;
+import com.example.demo.service.HoaDonChiTietService;
+import com.example.demo.service.KhuyenMaiSanPhamService;
+import com.example.demo.service.ThongBaoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+@CrossOrigin("http://localhost:3000/")
+@RestController
+@RequestMapping("/admin/ctsp")
+public class CTSPController {
+    @Autowired
+    private CTSPService ctspService;
+    @Autowired
+    private HinhAnhService hinhAnhService;
+    @Autowired
+    ThongBaoService thongBaoService;
+    @Autowired
+    private HoaDonChiTietService hoaDonChiTietService;
+    @Autowired
+    private KhuyenMaiSanPhamService khuyenMaiSanPhamService;
+    @GetMapping("/show")
+    public ResponseEntity<?> getALLCTSP() {
+        return new ResponseEntity<>(ctspService.getALL(), HttpStatus.OK);
+    }
+
+    @GetMapping("/detailsp")
+    public ResponseEntity<?> getAllDetail() {
+        return new ResponseEntity<>(ctspService.detail(), HttpStatus.OK);
+    }
+
+    @GetMapping("/showct/{idSP}")
+    public ResponseEntity<?> getALLCTSP(@PathVariable("idSP") String id) {
+        return new ResponseEntity<>(ctspService.getALLCTSP(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/detail/{idCT}")
+    public ResponseEntity<?> getDetail(@PathVariable("idCT") String id) {
+        return new ResponseEntity<>(ctspService.detailCTSP(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/QR/{idCT}")
+    public ResponseEntity<?> QRCtsp(@PathVariable("idCT") String id) {
+        return ResponseEntity.ok(ctspService.detailCtspByQrRespon(id));
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> update(@PathVariable("id") String id, @RequestBody UpdateCTSPRequest request) {
+        return ResponseEntity.ok(ctspService.update(id, request));
+    }
+
+    @GetMapping("/showct")
+    public ResponseEntity<?> getALLCTSP_1(@RequestParam String id) {
+        return new ResponseEntity<>(ctspService.getALLCTSP(id), HttpStatus.OK);
+    }
+
+    @PostMapping("/search-ctsp/{idSP}")
+    public ResponseEntity<?> search(@PathVariable("idSP") String id, @RequestBody CTSPSearch ctspSearch) {
+        return ResponseEntity.ok(ctspService.getSearch(id, ctspSearch));
+    }
+
+    @PostMapping("/search-ctsp-banhang")
+    public ResponseEntity<?> searchBanHang(@RequestBody CTSPSearch ctspSearch) {
+        return ResponseEntity.ok(ctspService.getSearchBanHang(ctspSearch));
+    }
+
+    @PutMapping("/updateKM/{idCTSP}")
+    public ResponseEntity<?> update(@PathVariable("idCTSP") String idCTSP, @RequestBody KhuyenMai khuyenMai) {
+
+        ChiTietSanPham ctsp = ctspService.findChiTietSanPhamByID(idCTSP);
+        KhuyenMaiSanPham k = khuyenMaiSanPhamService.find(khuyenMai.getId(),idCTSP);
+        if (k == null) {
+            List<KhuyenMaiSanPham> listKMSP = khuyenMaiSanPhamService.getAll();
+            KhuyenMaiSanPham kmsp = new KhuyenMaiSanPham();
+            kmsp.setKhuyenMai(khuyenMai);
+            kmsp.setTrangThai(0);
+            kmsp.setChiTietSanPham(ctsp);
+            kmsp.setMa(khuyenMai.getMa()+ctsp.getSanPham().getTen()+ctsp.getMauSac().getTen()+ctsp.getKichThuoc().getTen());
+            khuyenMaiSanPhamService.add(kmsp);
+        }
+            BigDecimal giaGiam = khuyenMai.getLoai().equals("Tiền mặt") ? khuyenMai.getGia_tri_khuyen_mai()
+                    : (ctsp.getGiaBan().subtract(ctsp.getGiaBan().multiply(khuyenMai.getGia_tri_khuyen_mai().divide(new BigDecimal("100")))));
+            BigDecimal giaSauGiam = ctsp.getGiaBan();
+//        subtract(giaGiam);
+            hoaDonChiTietService.updateGia(idCTSP, giaGiam, giaSauGiam);
+        return ResponseEntity.ok(ctspService.updateKM(idCTSP, khuyenMai));
+    }
+
+
+    @PutMapping("/deleteKM/{idCTSP}/{idKM}")
+    public ResponseEntity<?> delete(@PathVariable("idCTSP") String idCTSP,@PathVariable("idKM") String idKM) {
+        ChiTietSanPham ctsp = ctspService.findChiTietSanPhamByID(idCTSP);
+        hoaDonChiTietService.updateGia(idCTSP, new BigDecimal(0), ctsp.getGiaBan());
+
+
+        return ResponseEntity.ok(ctspService.deleteKM(idCTSP,idKM));
+    }
+
+
+    @GetMapping("/showKM/{idKM}")
+    public ResponseEntity<?> getALLCTSPByKM(@PathVariable("idKM") String id) {
+
+        return ResponseEntity.ok(ctspService.getALLCTSPByKM(id));
+    }
+
+    @GetMapping("/showCTSP/{idSP}")
+    public ResponseEntity<?> getCTSPByIDSP(@PathVariable("idSP") String id) {
+
+        return ResponseEntity.ok(ctspService.getAllCTSPByIDSP(id));
+    }
+
+
+    @PostMapping("/add")
+    public ResponseEntity<String> add(@RequestBody ChiTietSanPhamRequest request, HinhAnhRequest ha) {
+        request.setGiaNhap(BigDecimal.valueOf(0));
+        request.setTrangThai(0);
+        request.setSoLuongTra(0);
+        request.setNgayTao(LocalDateTime.now());
+        request.setGioiTinh(true);
+        ArrayList<String> listLink = request.getLinkAnh();
+        ChiTietSanPham newct = ctspService.add(request);
+        for (String link : listLink) {
+            int maAnh = hinhAnhService.getALL().size();
+            ha.setTrangThai(0);
+            ha.setMa("HA-" + (maAnh + 1));
+            ha.setChiTietSanPham(newct.getId());
+            ha.setTen(newct.getMauSac().getId());
+            ha.setUrl(link);
+            ha.setNgayTao(LocalDateTime.now());
+            hinhAnhService.add(ha);
+        }
+        return ResponseEntity.ok("Done");
+    }
+}
+

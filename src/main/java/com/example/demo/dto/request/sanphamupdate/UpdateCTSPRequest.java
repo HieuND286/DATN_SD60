@@ -1,6 +1,13 @@
 package com.example.demo.dto.request.sanphamupdate;
 
-import com.example.backend.entity.*;
+import com.example.demo.entity.ChatLieu;
+import com.example.demo.entity.ChiTietSanPham;
+import com.example.demo.entity.DanhMuc;
+import com.example.demo.entity.DeGiay;
+import com.example.demo.entity.Hang;
+import com.example.demo.entity.KichThuoc;
+import com.example.demo.entity.MauSac;
+import com.example.demo.entity.SanPham;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

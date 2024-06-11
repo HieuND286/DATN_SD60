@@ -1,7 +1,8 @@
 package com.example.demo.dto.request.sanpham;
 
 
-import com.example.backend.util.Status;
+import com.example.demo.entity.MauSac;
+import com.example.demo.util.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,5 +30,16 @@ public class MauSacRequest {
 
     private String nguoiSua;
 
-    private Status trangThai;
+    private int trangThai;
+
+    public MauSac mapMS(MauSac ms){
+        ms.setMa(this.ma);
+        ms.setTen(this.ten);
+        ms.setNgayTao(this.ngayTao);
+        ms.setNgaySua(this.ngaySua);
+        ms.setNguoiTao(this.nguoiTao);
+        ms.setNguoiSua(this.nguoiSua);
+        ms.setTrangThai(this.trangThai);
+        return ms;
+    }
 }

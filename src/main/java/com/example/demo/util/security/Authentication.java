@@ -1,6 +1,7 @@
 package com.example.demo.util.security;
-import com.example.backend.entity.NguoiDung;
-import com.example.backend.repository.NguoiDungRepository;
+
+import com.example.demo.entity.NguoiDung;
+import com.example.demo.repository.NguoiDungRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;

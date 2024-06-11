@@ -1,0 +1,78 @@
+package com.example.demo.controller.admin;
+
+
+import com.example.demo.dto.request.sanphamsearch.SanPhamSearch;
+import com.example.demo.entity.SanPham;
+import com.example.demo.service.SanPhamService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.time.LocalDateTime;
+
+@CrossOrigin("http://localhost:3000/")
+@RestController
+@RequestMapping("/admin/san-pham")
+@RequiredArgsConstructor
+public class SanPhamController {
+    @Autowired
+    SanPhamService sanPhamService;
+    @GetMapping
+    public ResponseEntity<?> getALLSP(){
+        return  ResponseEntity.ok(sanPhamService.getALLSP());
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<?> getALL(){
+        return new ResponseEntity<>(sanPhamService.getALL(), HttpStatus.OK);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable String id) {
+        if (sanPhamService.existByID(id)) {
+            sanPhamService.deleteByID(id);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/tim-kiem")
+    public ResponseEntity<?> search(@RequestBody SanPhamSearch sanPhamSearch){
+
+        return ResponseEntity.ok(sanPhamService.getTim(sanPhamSearch));
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<?> add(@RequestBody SanPham v){
+        int spThem = sanPhamService.getALL().size();
+        v.setNgayTao(LocalDateTime.now());
+        v.setMa("SP" + "-" + (spThem + 1));
+        v.setTrangThai(0);
+        return  ResponseEntity.ok(sanPhamService.addSP(v));
+
+    }
+
+    @GetMapping("/listMS/{id}")
+    public ResponseEntity<?> getListMauSacBySanPhamId(@PathVariable("id") String id){
+        return ResponseEntity.ok(sanPhamService.getListMauSacBySanPhamID(id));
+    }
+
+    @GetMapping("/listKT/{id}")
+    public ResponseEntity<?> getListKichThuocBySanPhamId(@PathVariable("id") String id){
+        return ResponseEntity.ok(sanPhamService.getListKichThuocBySanPhamID(id));
+    }
+
+    @GetMapping("/showSP/{idCTSP}")
+    public ResponseEntity<?> getSPByCTSP(@PathVariable("idCTSP") String id){
+        return ResponseEntity.ok(sanPhamService.getSPByCTSP(id));
+    }
+}

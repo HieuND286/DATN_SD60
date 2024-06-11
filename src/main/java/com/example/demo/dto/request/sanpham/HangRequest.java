@@ -1,6 +1,7 @@
 package com.example.demo.dto.request.sanpham;
 
 
+import com.example.demo.entity.Hang;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,4 +31,15 @@ public class HangRequest {
     private String nguoiSua;
 
     private int trangThai;
+
+    public Hang mapH(Hang h){
+        h.setMa(this.ma);
+        h.setTen(this.ten);
+        h.setNgayTao(this.ngayTao);
+        h.setNgaySua(this.ngaySua);
+        h.setNguoiTao(this.nguoiTao);
+        h.setNguoiSua(this.nguoiSua);
+        h.setTrangThai(this.trangThai);
+        return h;
+    }
 }

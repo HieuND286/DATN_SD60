@@ -1,7 +1,7 @@
 package com.example.demo.dto.request.sanpham;
 
 
-import com.example.backend.entity.DanhMuc;
+import com.example.demo.entity.DanhMuc;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

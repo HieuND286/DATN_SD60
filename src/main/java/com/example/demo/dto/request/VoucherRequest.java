@@ -1,7 +1,7 @@
 package com.example.demo.dto.request;
 
-import com.example.backend.entity.Voucher;
-import com.example.backend.util.Status;
+import com.example.demo.entity.Voucher;
+import com.example.demo.util.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

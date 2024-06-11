@@ -1,9 +1,9 @@
 package com.example.demo.dto.request;
 
 
-import com.example.backend.entity.ChiTietSanPham;
-import com.example.backend.entity.GioHang;
-import com.example.backend.entity.GioHangChiTiet;
+import com.example.demo.entity.ChiTietSanPham;
+import com.example.demo.entity.GioHang;
+import com.example.demo.entity.GioHangChiTiet;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

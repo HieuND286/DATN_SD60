@@ -1,7 +1,7 @@
 package com.example.demo.dto.request;
 
 
-import com.example.backend.entity.KhuyenMai;
+import com.example.demo.entity.KhuyenMai;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

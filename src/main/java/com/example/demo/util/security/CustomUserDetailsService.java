@@ -1,7 +1,7 @@
 package com.example.demo.util.security;
 
-import com.example.backend.entity.NguoiDung;
-import com.example.backend.repository.NguoiDungRepository;
+import com.example.demo.entity.NguoiDung;
+import com.example.demo.repository.NguoiDungRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,7 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService{
                         new RuntimeException("Đăng nhập không thành công "));
 
         return new org.springframework.security.core.userdetails.User(nguoiDung.getEmail(),
-                nguoiDung.getPassword(),
+                nguoiDung.getMatKhau(),
                 Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + nguoiDung.getChucVu())));
     }
 }

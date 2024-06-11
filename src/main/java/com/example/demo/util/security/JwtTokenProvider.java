@@ -1,9 +1,9 @@
 package com.example.demo.util.security;
 
 
-import com.example.backend.entity.NguoiDung;
-import com.example.backend.infrastructure.exception.BlogAPIException;
-import com.example.backend.repository.NguoiDungRepository;
+import com.example.demo.entity.NguoiDung;
+import com.example.demo.infrastructure.exception.BlogAPIException;
+import com.example.demo.repository.NguoiDungRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;

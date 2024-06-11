@@ -1,6 +1,7 @@
 package com.example.demo.dto.request.sanpham;
 
 
+import com.example.demo.entity.DeGiay;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,4 +30,15 @@ public class DeGiayRequest {
     private String nguoiSua;
 
     private int trangThai;
+
+    public DeGiay mapDG(DeGiay dg){
+        dg.setMa(this.ma);
+        dg.setTen(this.ten);
+        dg.setNgayTao(this.ngayTao);
+        dg.setNgaySua(this.ngaySua);
+        dg.setNguoiTao(this.nguoiTao);
+        dg.setNguoiSua(this.nguoiSua);
+        dg.setTrangThai(this.trangThai);
+        return dg;
+    }
 }

@@ -1,10 +1,10 @@
 package com.example.demo.dto.request;
 
 
-import com.example.backend.entity.NguoiDung;
-import com.example.backend.entity.NguoiDungVoucher;
-import com.example.backend.entity.Voucher;
-import com.example.backend.util.Status;
+import com.example.demo.entity.NguoiDung;
+import com.example.demo.entity.NguoiDungVoucher;
+import com.example.demo.entity.Voucher;
+import com.example.demo.util.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

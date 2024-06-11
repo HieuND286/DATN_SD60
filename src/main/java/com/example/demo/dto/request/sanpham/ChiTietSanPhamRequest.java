@@ -1,6 +1,13 @@
 package com.example.demo.dto.request.sanpham;
 
-import com.example.backend.entity.*;
+import com.example.demo.entity.ChatLieu;
+import com.example.demo.entity.ChiTietSanPham;
+import com.example.demo.entity.DanhMuc;
+import com.example.demo.entity.DeGiay;
+import com.example.demo.entity.Hang;
+import com.example.demo.entity.KichThuoc;
+import com.example.demo.entity.MauSac;
+import com.example.demo.entity.SanPham;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,6 +16,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @Getter
 @Setter
@@ -33,11 +41,13 @@ public class ChiTietSanPhamRequest {
     public String qrCode;
     public String moTa;
     public int soLuong;
+    public int soLuongTra;
     public LocalDateTime ngayTao;
     public LocalDateTime ngaySua;
     public String nguoiTao;
     public String nguoiSua;
     public int trangThai;
+    public ArrayList<String> linkAnh;
 
     public ChiTietSanPham map(ChiTietSanPham ctsp){
         ctsp.setId(this.id);
@@ -54,6 +64,7 @@ public class ChiTietSanPhamRequest {
         ctsp.setQrCode(this.qrCode);
         ctsp.setMoTa(this.moTa);
         ctsp.setSoLuong(this.soLuong);
+        ctsp.setSoLuongTra(this.soLuongTra);
         ctsp.setNgayTao(this.ngayTao);
         ctsp.setNgaySua(this.ngaySua);
         ctsp.setNguoiTao(this.nguoiTao);
@@ -62,5 +73,5 @@ public class ChiTietSanPhamRequest {
         ctsp.setGhiChu(this.ghiChu);
         ctsp.setTenCt(this.tenCt);
         return ctsp;
-    }
+        }
 }

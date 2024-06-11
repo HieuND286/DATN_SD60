@@ -1,8 +1,8 @@
 package com.example.demo.dto.request;
 
 
-import com.example.backend.entity.HoaDon;
-import com.example.backend.entity.LichSuHoaDon;
+import com.example.demo.entity.HoaDon;
+import com.example.demo.entity.LichSuHoaDon;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

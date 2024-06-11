@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.request.sanpham.ChatLieuRequest;
+import com.example.demo.dto.request.sanphamsearch.BangConSearch;
 import com.example.demo.dto.response.sanpham.ChatLieuRespone;
 import com.example.demo.entity.ChatLieu;
 import com.example.demo.repository.ChatLieuRepository;
@@ -27,6 +28,10 @@ public class ChatLieuService {
     }
 
     public ChatLieu detailCL(String id){return chatLieuRepository.findById(id).get();}
+
+    public List<ChatLieuRespone> getTim(BangConSearch bangConSearch) {
+        return chatLieuRepository.timCL(bangConSearch);
+    }
 
     public String addCL(ChatLieuRequest cl){
         ChatLieu chatLieu = ChatLieu.builder()

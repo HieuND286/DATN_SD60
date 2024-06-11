@@ -1,7 +1,7 @@
 package com.example.demo.dto.request;
 
 
-import com.example.backend.entity.CongThuc;
+import com.example.demo.entity.CongThuc;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
