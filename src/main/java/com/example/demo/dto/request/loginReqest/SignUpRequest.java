@@ -1,6 +1,6 @@
 package com.example.demo.dto.request.loginReqest;
 
-import com.example.backend.entity.NguoiDung;
+import com.example.demo.entity.NguoiDung;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

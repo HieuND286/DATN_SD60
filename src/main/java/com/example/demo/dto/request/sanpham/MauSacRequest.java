@@ -2,7 +2,6 @@ package com.example.demo.dto.request.sanpham;
 
 
 import com.example.demo.entity.MauSac;
-import com.example.demo.util.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

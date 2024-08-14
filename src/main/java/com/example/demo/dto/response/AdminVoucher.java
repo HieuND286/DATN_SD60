@@ -1,6 +1,6 @@
 package com.example.demo.dto.response;
 
-import com.example.backend.util.Status;
+import com.example.demo.infrastructure.constant.Status;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import org.springframework.beans.factory.annotation.Value;
