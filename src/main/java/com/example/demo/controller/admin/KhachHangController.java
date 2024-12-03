@@ -1,0 +1,113 @@
+package com.example.demo.controller.admin;
+
+import com.example.demo.dto.request.DiaChiRequest;
+import com.example.demo.dto.request.KhachHangRequest;
+import com.example.demo.dto.request.NguoiDungSeacrh;
+import com.example.demo.dto.response.DiaChiKHResponse;
+import com.example.demo.service.KhachHangService;
+import com.google.gson.Gson;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+
+@CrossOrigin("http://localhost:3000/")
+@RestController
+@RequestMapping("/admin/khach-hang")
+@RequiredArgsConstructor
+public class KhachHangController {
+
+    @Autowired
+    KhachHangService khachHangService;
+
+    @GetMapping
+    public ResponseEntity<?> getAll() {
+        return ResponseEntity.ok(khachHangService.getAll());
+    }
+
+    @GetMapping("/dia-chi/{idKH}")
+    public  ResponseEntity<?> getALLDCbyKH(@PathVariable("idKH") String idKH){
+        return ResponseEntity.ok(khachHangService.findDiaChiByKH(idKH));
+    }
+    @GetMapping("/dia-chi-mac-dinh/{idKH}")
+    public  ResponseEntity<?> getDiaChiMacDinh(@PathVariable("idKH") String idKH){
+        return ResponseEntity.ok(khachHangService.findDiaChiMacDinh(idKH));
+    }
+    @PostMapping("/add-dia-chi")
+    public ResponseEntity<?> addDiaChi(@RequestBody DiaChiRequest request){
+        request.setTrangThai(1);
+
+        return ResponseEntity.ok(khachHangService.addDiaChi(request));
+    }
+    @GetMapping("/detailDC/{id}")
+    public ResponseEntity<?> detailDiaChi(@PathVariable("id")String id){
+        return ResponseEntity.ok(khachHangService.detailDiaChi(id));
+    }
+    @PostMapping("/update-dia-chi/{id}")
+    public ResponseEntity<?> updateDiaChi(@PathVariable("id")String id,@RequestBody DiaChiRequest request){
+        return ResponseEntity.ok(khachHangService.updateDiaChi(id,request));
+    }
+    @PostMapping("/update-tt-dc/{id}")
+    public ResponseEntity<?> updateTTDC(@PathVariable("id")String id){
+        return ResponseEntity.ok(khachHangService.updateTTDiaChi(id));
+    }
+    @PostMapping()
+    public ResponseEntity<?> add(@RequestParam("request") String request,
+                                 @RequestParam(value = "file", required = false) MultipartFile file) {
+
+        Gson gson = new Gson();
+        KhachHangRequest khachHangRequest = gson.fromJson(request, KhachHangRequest.class);
+
+        return ResponseEntity.ok(khachHangService.add(khachHangRequest, file));
+    }
+
+    @PutMapping()
+    public ResponseEntity<?> update(@RequestParam("request") String request,
+                                    @RequestParam(value = "file", required = false) MultipartFile file) {
+
+        Gson gson = new Gson();
+//        System.out.println(gson);
+        KhachHangRequest zzzzzzzzz = gson.fromJson(request, KhachHangRequest.class);
+        return ResponseEntity.ok(khachHangService.update(zzzzzzzzz, file));
+
+    }
+
+    @PostMapping ("/search")
+    public ResponseEntity<?> search(@RequestBody NguoiDungSeacrh nguoiDungSeacrh){
+        return ResponseEntity.ok(khachHangService.getSearchKhachHang(nguoiDungSeacrh));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getById(@PathVariable("id") String id) {
+//        System.out.println("ID detail" + id);
+//        System.out.println("Detail" + khachHangService.getByID(id).toString());
+        return ResponseEntity.ok(khachHangService.getByID(id));
+
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<?> updateStatus(@RequestParam("id") String id,
+                                          @RequestParam("status") String status) {
+        Gson gson = new Gson();
+        String idUser = gson.fromJson(id, String.class);
+        String statusGson = gson.fromJson(status, String.class);
+        return ResponseEntity.ok(khachHangService.updateStatus(idUser, statusGson));
+    }
+
+    @GetMapping("/ban-hang/dia-chi/{idKH}")
+    public ResponseEntity<?> getDiaChiByIDKH(@PathVariable("idKH") String idKH){
+        List<DiaChiKHResponse> list = khachHangService.getAllDiaChiByIDKH(idKH);
+        return ResponseEntity.ok(khachHangService.getAllDiaChiByIDKH(idKH).get(0));
+    }
+}
